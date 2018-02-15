@@ -1,5 +1,20 @@
 module.exports = function(app){
-        app.get("/produtos",function(require,response){
-        response.render("produtos/lista");
+        app.get('/produtos',function(req,res){
+            var mysql = require('mysql');
+            var connection = mysql.createConnection({
+                host : "localhost",
+                user : "root",
+                password : "",
+                database : "casadocodigo",
+            });
+
+            connection.query('select * from produtos',function(err,results){
+                res.render("produtos/lista",{
+                    lista : results
+                });
+            });
+
+            connection.end();
+        
     });
 }
